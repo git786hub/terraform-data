@@ -1,0 +1,32 @@
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/monitoring/prometheus/prometheus-deployment.yaml -n monitoring --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/monitoring/prometheus/prometheus-service.yaml -n monitoring --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/monitoring/prometheus/kube-state-metrics/kubernetes --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/monitoring/fluentd-cloudwatch1.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS1-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/monitoring/fluentd-cloudwatch2.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+
+ kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS1-Config.yaml
+ kubectl delete -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/heapster.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS1-Config.yaml
+ kubectl delete -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/influxdb.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS1-Config.yaml
+ kubectl delete -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/rbac/heapster-rbac.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS1-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/monitoring/KubeDashboardRbac.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS1-Config.yaml
+
+ kubectl delete -f https://raw.githubusercontent.com/kubernetes/dashboard/v1.10.1/src/deploy/recommended/kubernetes-dashboard.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+ kubectl delete -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/heapster.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+ kubectl delete -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/influxdb/influxdb.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+ kubectl delete -f https://raw.githubusercontent.com/kubernetes/heapster/master/deploy/kube-config/rbac/heapster-rbac.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/monitoring/KubeDashboardRbac.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/monitoring/TwistLockDefender.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS1-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/monitoring/TwistLockDefender.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/JpetDeployment.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS1-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/JpetLBService.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS1-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/JpetDeployment.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+ kubectl delete -f /home/ansible/workspace/EKS-App-New/JpetLBService.yaml --kubeconfig /home/ansible/workspace/EKS-App-New/EKS2-Config.yaml
+
+echo "*****************Deleting AWS EKS***************"
+terraform destroy -auto-approve
+
+echo "*****************Deleting AWS ECR***************"
+cd /home/ansible/workspace/ECR
+
+terraform destroy -var ECR-name=ci-lab-image -auto-approve

@@ -1,0 +1,171 @@
+resource "aws_vpc" "eks" {
+  cidr_block = "${var.VPCCIDR}"
+  tags = "${
+    map(
+                "Name", "${var.VPCName}",
+                "kubernetes.io/cluster/${var.cluster-name1}", "shared",
+                "kubernetes.io/cluster/${var.cluster-name2}", "shared",
+
+            )
+  }"
+}
+
+resource "aws_subnet" "Private1" {
+  availability_zone = "${var.aws-region}a"
+  cidr_block        = "${var.PrivateSubnet1CIDR}"
+  vpc_id            = "${aws_vpc.eks.id}"
+
+  tags = "${
+    map(
+                "Name", "${var.PrivateSubnet1}",
+                "kubernetes.io/cluster/${var.cluster-name1}", "shared",
+                "kubernetes.io/cluster/${var.cluster-name2}", "shared",
+            )
+  }"
+}
+
+resource "aws_subnet" "Private2" {
+  availability_zone = "${var.aws-region}b"
+  cidr_block        = "${var.PrivateSubnet2CIDR}"
+  vpc_id            = "${aws_vpc.eks.id}"
+
+  tags = "${
+    map(
+                "Name", "${var.PrivateSubnet2}",
+                "kubernetes.io/cluster/${var.cluster-name1}", "shared",
+                "kubernetes.io/cluster/${var.cluster-name2}", "shared",
+            )
+  }"
+}
+
+resource "aws_subnet" "Public1" {
+  availability_zone = "${var.aws-region}a"
+  cidr_block        = "${var.PublicSubnet1CIDR}"
+  vpc_id            = "${aws_vpc.eks.id}"
+
+  tags = "${
+    map(
+                "Name", "${var.PublicSubnet1}",
+                "kubernetes.io/cluster/${var.cluster-name1}", "shared",
+                "kubernetes.io/cluster/${var.cluster-name2}", "shared",
+            )
+  }"
+}
+
+resource "aws_subnet" "Public2" {
+  availability_zone = "${var.aws-region}b"
+  cidr_block        = "${var.PublicSubnet2CIDR}"
+  vpc_id            = "${aws_vpc.eks.id}"
+
+  tags = "${
+    map(
+                "Name", "${var.PublicSubnet2}",
+                "kubernetes.io/cluster/${var.cluster-name1}", "shared",
+                "kubernetes.io/cluster/${var.cluster-name2}", "shared",
+            )
+  }"
+}
+
+resource "aws_subnet" "DMZ1" {
+  availability_zone = "${var.aws-region}a"
+  cidr_block        = "${var.DMZSubnet1CIDR}"
+  vpc_id            = "${aws_vpc.eks.id}"
+
+  tags = "${
+    map(
+                "Name", "${var.DMZSubnet1}",
+                "kubernetes.io/cluster/${var.cluster-name1}", "shared",
+                "kubernetes.io/cluster/${var.cluster-name2}", "shared",
+            )
+  }"
+}
+
+resource "aws_subnet" "DMZ2" {
+  availability_zone = "${var.aws-region}b"
+  cidr_block        = "${var.DMZSubnet2CIDR}"
+  vpc_id            = "${aws_vpc.eks.id}"
+  tags = "${
+    map(
+                "Name", "${var.DMZSubnet2}",
+                "kubernetes.io/cluster/${var.cluster-name1}", "shared",
+                "kubernetes.io/cluster/${var.cluster-name2}", "shared",
+            )
+  }"
+}
+
+resource "aws_internet_gateway" "IGW" {
+  vpc_id = "${aws_vpc.eks.id}"
+
+  tags {
+    Name = "igw-${var.VPCName}"
+  }
+}
+
+resource "aws_route_table" "Public" {
+  vpc_id = "${aws_vpc.eks.id}"
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = "${aws_internet_gateway.IGW.id}"
+  }
+
+    tags {
+    Name = "Public-${var.VPCName}"
+  }
+}
+
+resource "aws_route_table_association" "PublicRouteTableAssociation1" {
+  subnet_id      = "${aws_subnet.Public1.id}"
+  route_table_id = "${aws_route_table.Public.id}"
+}
+
+resource "aws_route_table_association" "PublicRouteTableAssociation2" {
+  subnet_id      = "${aws_subnet.Public2.id}"
+  route_table_id = "${aws_route_table.Public.id}"
+}
+
+resource "aws_route_table_association" "DMZRouteTableAssociation1" {
+  subnet_id      = "${aws_subnet.DMZ1.id}"
+  route_table_id = "${aws_route_table.Public.id}"
+}
+
+resource "aws_route_table_association" "DMZRouteTableAssociation2" {
+  subnet_id      = "${aws_subnet.DMZ2.id}"
+  route_table_id = "${aws_route_table.Public.id}"
+}
+
+#NAT gateway
+
+resource "aws_eip" "nat-eip" {
+vpc      = true
+}
+
+resource "aws_nat_gateway" "nat-gw" {
+allocation_id = "${aws_eip.nat-eip.id}"
+subnet_id = "${aws_subnet.Public1.id}"
+depends_on = ["aws_internet_gateway.IGW"]
+}
+
+####Private route table
+resource "aws_route_table" "Private" {
+    vpc_id = "${aws_vpc.eks.id}"
+    route {
+        cidr_block = "0.0.0.0/0"
+        nat_gateway_id = "${aws_nat_gateway.nat-gw.id}"
+    }
+
+    tags {
+        Name = "private-${var.VPCName}"
+    }
+}
+
+#####private routes
+resource "aws_route_table_association" "PrivateRouteTableAssociation1" {
+    subnet_id = "${aws_subnet.Private1.id}"
+    route_table_id = "${aws_route_table.Private.id}"
+}
+
+resource "aws_route_table_association" "PrivateRouteTableAssociation2" {
+  subnet_id      = "${aws_subnet.Private2.id}"
+  route_table_id = "${aws_route_table.Private.id}"
+}

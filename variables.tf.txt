@@ -1,0 +1,77 @@
+# EKS Variables Configuration
+
+variable "cluster-name1" {
+  default     = "EKS-Cluster-1"
+  type        = "string"
+  description = "The name of your EKS Cluster"
+}
+
+variable "cluster-name2" {
+  default     = "EKS-Cluster-2"
+  type        = "string"
+  description = "The name of your EKS Cluster"
+}
+
+variable "aws-region" {
+  default     = "us-east-1"
+  type        = "string"
+  description = "The AWS Region to deploy EKS"
+}
+
+variable "k8s-version" {
+  default     = "1.11"
+  type        = "string"
+  description = "Required K8s version"
+}
+
+variable "node-instance-type" {
+  default     = "t2.large"
+  type        = "string"
+  description = "Worker Node EC2 instance type"
+}
+
+variable "desired-capacity" {
+  default     = 3
+  type        = "string"
+  description = "Autoscaling Desired node capacity"
+}
+
+variable "max-size" {
+  default     = 10
+  type        = "string"
+  description = "Autoscaling maximum node capacity"
+}
+
+variable "min-size" {
+  default     = 3
+  type        = "string"
+  description = "Autoscaling Minimum node capacity"
+}
+
+variable "eks-worker-ami"{
+  default     = "ami-0eeeef929db40543c"
+  type        = "string"
+  description = "Worker node AMI id"
+}
+variable "KeyName"{
+  default     = "welcome"
+  type        = "string"
+  description = "key-pair Name"
+}
+
+#######################################RDS Variables Configuration
+
+variable "rdsname"{
+  default     = "app-db"
+  type        = "string"
+  description = "RDS Name"
+}
+
+
+variable "rds_InstanceType"{
+  default     = "db.t2.small"
+  type        = "string"
+  description = "DB instance type"
+}
+
+

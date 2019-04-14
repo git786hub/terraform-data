@@ -1,0 +1,34 @@
+output "VPC" {
+        description= "Public subnet 1 Name"
+        value= "${aws_vpc.eks.id}"
+}
+
+output "PublicSubnet1" {
+        description= "Public subnet 1 Name"
+        value= "${aws_subnet.Public1.id}"
+}
+
+output "PublicSubnet2" {
+        description= "Public subnet 2 Name"
+        value= "${aws_subnet.Public2.id}"
+}
+
+output "PrivateSubnet1" {
+        description= "Private subnet 1 Name"
+        value= "${aws_subnet.Private1.id}"
+}
+
+output "PrivateSubnet2" {
+        description= "Private subnet 2 Name"
+        value= "${aws_subnet.Private2.id}"
+}
+
+output "DMZSubnet1" {
+        description= "DMZ subnet 1 Name"
+        value= "${aws_subnet.DMZ1.id}"
+}
+
+output "DMZSubnet2" {
+        description= "DMZ subnet 2 Name"
+        value= "${aws_subnet.DMZ2.id}"
+}

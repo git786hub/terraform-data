@@ -1,0 +1,52 @@
+{
+    "version": 3,
+    "terraform_version": "0.11.11",
+    "serial": 34,
+    "lineage": "9736c770-7e23-490e-3b27-064050dda136",
+    "modules": [
+        {
+            "path": [
+                "root"
+            ],
+            "outputs": {},
+            "resources": {},
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "eks1"
+            ],
+            "outputs": {},
+            "resources": {},
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "eks2"
+            ],
+            "outputs": {},
+            "resources": {},
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "network"
+            ],
+            "outputs": {},
+            "resources": {},
+            "depends_on": []
+        },
+        {
+            "path": [
+                "root",
+                "rds"
+            ],
+            "outputs": {},
+            "resources": {},
+            "depends_on": []
+        }
+    ]
+}

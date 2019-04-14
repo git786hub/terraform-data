@@ -1,0 +1,21 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: jpet-deployment
+  labels:
+    app: jpetstore
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: jpetstore
+  template:
+    metadata:
+      labels:
+        app: jpetstore
+    spec:
+      containers:
+      - name: jpetstore
+        image: 122285136466.dkr.ecr.us-east-1.amazonaws.com/ci-lab-image:v21
+        ports:
+        - containerPort: 8080

@@ -1,0 +1,87 @@
+variable "aws-region"{}
+variable "cluster-name1"{}
+variable "cluster-name2"{}
+
+variable "VPCName"{
+  description = "VPC Name"
+  default     = "EKS-VPC"
+  type        = "string"
+}
+
+variable "PrivateSubnet1"{
+  description = "Private Subnet 1"
+  default     = "backend-1"
+  type        = "string"
+}
+
+variable "PrivateSubnet2"{
+  description = "Private Subnet 2"
+  default     = "backend-2"
+  type        = "string"
+}
+
+variable "PublicSubnet1"{
+  description = "Public Subnet 1"
+  default     = "edge-1"
+  type        = "string"
+}
+
+variable "PublicSubnet2"{
+  description = "Public Subnet 2"
+  default     = "edge-2"
+  type        = "string"
+}
+
+variable "DMZSubnet1"{
+  description = "DMZ Subnet 1"
+  default     = "DMZ-1"
+  type        = "string"
+}
+
+variable "DMZSubnet2"{
+  description = "DMZ Subnet 2"
+  default     = "DMZ-2"
+  type        = "string"
+}
+
+variable "VPCCIDR"{
+  description = "VPC CIDR"
+  default     = "10.20.0.0/16"
+  type        = "string"
+}
+
+variable "PrivateSubnet1CIDR"{
+  description = "Private Subnet 1 CIDR"
+  default     = "10.20.1.0/24"
+  type        = "string"
+}
+
+variable "PrivateSubnet2CIDR"{
+  description = "Private Subnet 2 CIDR"
+  default     = "10.20.2.0/24"
+  type        = "string"
+}
+
+variable "PublicSubnet1CIDR"{
+  description = "Public Subnet 1 CIDR"
+  default     = "10.20.3.0/24"
+  type        = "string"
+}
+
+variable "PublicSubnet2CIDR"{
+  description = "Public Subnet 2 CIDR"
+  default     = "10.20.4.0/24"
+  type        = "string"
+}
+
+variable "DMZSubnet1CIDR"{
+  description = "DMZ Subnet 1 CIDR"
+  default     = "10.20.5.0/24"
+  type        = "string"
+}
+
+variable "DMZSubnet2CIDR"{
+  description = "DMZ Subnet 2 CIDR"
+  default     = "10.20.6.0/24"
+  type        = "string"
+}
